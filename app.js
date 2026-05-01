@@ -1,7 +1,6 @@
 let data = {};
 let isAdmin = false;
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_REPO = 'aurelienvrn/urgences-app';
 const GITHUB_FILE = 'data.json';
 const ADMIN_USER = 'PEP76ROUENURGENCEAPP';
@@ -168,13 +167,13 @@ function envoyerSms(numero, message) {
 async function saveToGithub() {
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
   const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
-    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+    headers: { 'Accept': 'application/vnd.github.v3+json' }
   });
   const fileInfo = await getRes.json();
-  const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
-    method: 'PUT',
-    headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: 'Mise à jour via admin', content: content, sha: fileInfo.sha })
+  const putRes = await fetch('/.netlify/functions/save-data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: content, sha: fileInfo.sha })
   });
   return putRes.ok;
 }
