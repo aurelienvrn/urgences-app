@@ -12,12 +12,14 @@
         {
           "nom": "Pompiers",
           "telephone": "18",
-          "sms": false
+          "sms": false,
+          "message": ""
         },
         {
-          "nom": "Responsable sécurité",
-          "telephone": "0600000001",
-          "sms": true
+          "nom": "Responsable RH",
+          "telephone": "0606872024",
+          "sms": true,
+          "message": "HELP HELP ! j'ai besoin de toi (envoyé depuis l'app)"
         }
       ]
     },
@@ -29,12 +31,14 @@
         {
           "nom": "SAMU",
           "telephone": "15",
-          "sms": false
+          "sms": false,
+          "message": ""
         },
         {
           "nom": "Infirmier référent",
           "telephone": "0600000002",
-          "sms": true
+          "sms": true,
+          "message": ""
         }
       ]
     },
@@ -46,12 +50,14 @@
         {
           "nom": "Police",
           "telephone": "17",
-          "sms": false
+          "sms": false,
+          "message": ""
         },
         {
           "nom": "Directrice",
           "telephone": "0600000003",
-          "sms": true
+          "sms": true,
+          "message": ""
         }
       ]
     },
@@ -63,7 +69,8 @@
         {
           "nom": "Maintenance",
           "telephone": "0600000004",
-          "sms": true
+          "sms": true,
+          "message": ""
         }
       ]
     }
@@ -75,7 +82,9 @@
       "icone": "🚪",
       "categorie": "Urgence",
       "image": "images/evacuation.jpg",
-      "contacts_lies": ["incendie"]
+      "contacts_lies": [
+        "incendie"
+      ]
     },
     {
       "id": "premiers-secours",
@@ -83,7 +92,9 @@
       "icone": "🩺",
       "categorie": "Santé",
       "image": "images/premiers-secours.jpg",
-      "contacts_lies": ["accident"]
+      "contacts_lies": [
+        "accident"
+      ]
     },
     {
       "id": "crise",
@@ -91,7 +102,9 @@
       "icone": "💬",
       "categorie": "Communication",
       "image": "images/crise.jpg",
-      "contacts_lies": ["securite"]
+      "contacts_lies": [
+        "securite"
+      ]
     }
   ]
 }
