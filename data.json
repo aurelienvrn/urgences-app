@@ -88,10 +88,10 @@
     },
     {
       "id": "premiers-secours",
-      "titre": "Premiers secours",
-      "icone": "🩺",
-      "categorie": "Santé",
-      "image": "images/premiers-secours.jpg",
+      "titre": "Santé mental",
+      "icone": "🐶",
+      "categorie": "Petit chien mignon ",
+      "image": "⏳ Upload en cours...",
       "contacts_lies": [
         "accident"
       ]
