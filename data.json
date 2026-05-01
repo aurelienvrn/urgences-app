@@ -18,7 +18,7 @@
         {
           "nom": "Responsable RH",
           "telephone": "0606872024",
-          "sms": true,
+          "sms": false,
           "message": "HELP HELP ! j'ai besoin de toi (envoyé depuis l'app)"
         }
       ]
@@ -36,9 +36,9 @@
         },
         {
           "nom": "Infirmier référent",
-          "telephone": "0600000002",
+          "telephone": "0606872024",
           "sms": true,
-          "message": ""
+          "message": "Nxdbs’sknd"
         }
       ]
     },
