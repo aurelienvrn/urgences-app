@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#D32F2F">
+  <title>UrgencesPro</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; max-width: 480px; margin: 0 auto; min-height: 100vh; }
+
+    #header { background: #D32F2F; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+    #app-title { color: #fff; font-size: 17px; font-weight: 600; }
+    #back-btn { color: #fff; font-size: 24px; cursor: pointer; display: none; padding: 0 8px 0 0; line-height: 1; }
+
+    #sos-zone { background: #D32F2F; padding: 0 16px 16px; }
+    #sos-label { color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding-bottom: 8px; }
+    #sos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .sos-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 12px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+    .sos-btn:active { background: rgba(255,255,255,0.3); }
+    .sos-icon { font-size: 20px; }
+    .sos-btn-label { color: #fff; font-size: 12px; font-weight: 600; }
+    .sos-btn-sub { color: rgba(255,255,255,0.7); font-size: 10px; }
+
+    #procedures-zone { padding: 14px 16px; }
+    .section-title { font-size: 12px; color: #888; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .proc-list { display: flex; flex-direction: column; gap: 8px; }
+    .proc-item { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .proc-item:active { background: #f9f9f9; }
+    .proc-dot { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: #fff3f3; }
+    .proc-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+    .proc-tag { font-size: 12px; color: #888; margin-top: 2px; }
+    .proc-arrow { color: #ccc; font-size: 18px; margin-left: auto; }
+
+    #detail-screen { display: none; }
+    #detail-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    #proc-image { width: 100%; border-radius: 12px; border: 1px solid #eee; display: block; }
+    #image-placeholder { background: #fff; border: 1px solid #eee; border-radius: 12px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .contact-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 14px; }
+    .contact-card-title { font-size: 11px; color: #888; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .contact-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+    .contact-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-avatar { width: 38px; height: 38px; border-radius: 50%; background: #ffebee; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #c62828; flex-shrink: 0; }
+    .contact-info { flex: 1; }
+    .contact-name { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+    .contact-num { font-size: 12px; color: #888; }
+    .contact-btns { display: flex; gap: 6px; }
+    .btn-call { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; background: #e8f5e9; }
+    .btn-sms { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; background: #e3f2fd; }
+
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: flex-end; }
+    .modal-overlay.show { display: flex; }
+    .modal-sheet { background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; }
+    .modal-handle { width: 36px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 16px; }
+    .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .modal-sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+    .modal-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: #f9f9f9; margin-bottom: 8px; cursor: pointer; }
+    .modal-contact-btn:active { background: #f0f0f0; }
+    .modal-contact-icon { font-size: 20px; width: 28px; text-align: center; }
+    .modal-contact-name { font-size: 14px; font-weight: 600; flex: 1; }
+    .modal-contact-num { font-size: 12px; color: #888; }
+    .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
+    .modal-btn-call { flex: 1; padding: 12px; background: #e8f5e9; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; color: #2e7d32; cursor: pointer; }
+    .modal-btn-sms { flex: 1; padding: 12px; background: #e3f2fd; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; color: #1565c0; cursor: pointer; }
+    .modal-close { width: 100%; padding: 12px; margin-top: 12px; border: 1px solid #eee; border-radius: 10px; background: none; font-size: 14px; color: #888; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <span id="back-btn" onclick="goHome()">‹</span>
+  <span id="app-title">UrgencesPro</span>
+</div>
+
+<div id="home-screen">
+  <div id="sos-zone">
+    <div id="sos-label">Contacts d'urgence</div>
+    <div id="sos-grid"></div>
+  </div>
+  <div id="procedures-zone">
+    <div class="section-title">Procédures</div>
+    <div class="proc-list" id="proc-list"></div>
+  </div>
+</div>
+
+<div id="detail-screen">
+  <div id="detail-body"></div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-sub">Choisissez une action</div>
+    <div id="modal-content"></div>
+    <button class="modal-close" onclick="closeModal()">Annuler</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
