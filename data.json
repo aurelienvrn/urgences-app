@@ -1,0 +1,97 @@
+{
+  "app": {
+    "nom": "UrgencesPro",
+    "couleur": "#D32F2F"
+  },
+  "contacts_urgence": [
+    {
+      "id": "incendie",
+      "label": "Incendie",
+      "icone": "🔥",
+      "contacts": [
+        {
+          "nom": "Pompiers",
+          "telephone": "18",
+          "sms": false
+        },
+        {
+          "nom": "Responsable sécurité",
+          "telephone": "0600000001",
+          "sms": true
+        }
+      ]
+    },
+    {
+      "id": "accident",
+      "label": "Accident",
+      "icone": "🚑",
+      "contacts": [
+        {
+          "nom": "SAMU",
+          "telephone": "15",
+          "sms": false
+        },
+        {
+          "nom": "Infirmier référent",
+          "telephone": "0600000002",
+          "sms": true
+        }
+      ]
+    },
+    {
+      "id": "securite",
+      "label": "Sécurité",
+      "icone": "🔒",
+      "contacts": [
+        {
+          "nom": "Police",
+          "telephone": "17",
+          "sms": false
+        },
+        {
+          "nom": "Directrice",
+          "telephone": "0600000003",
+          "sms": true
+        }
+      ]
+    },
+    {
+      "id": "technique",
+      "label": "Technique",
+      "icone": "⚙️",
+      "contacts": [
+        {
+          "nom": "Maintenance",
+          "telephone": "0600000004",
+          "sms": true
+        }
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "evacuation",
+      "titre": "Évacuation du bâtiment",
+      "icone": "🚪",
+      "categorie": "Urgence",
+      "image": "images/evacuation.jpg",
+      "contacts_lies": ["incendie"]
+    },
+    {
+      "id": "premiers-secours",
+      "titre": "Premiers secours",
+      "icone": "🩺",
+      "categorie": "Santé",
+      "image": "images/premiers-secours.jpg",
+      "contacts_lies": ["accident"]
+    },
+    {
+      "id": "crise",
+      "titre": "Gestion de crise médiatique",
+      "icone": "💬",
+      "categorie": "Communication",
+      "image": "images/crise.jpg",
+      "contacts_lies": ["securite"]
+    }
+  ]
+}
