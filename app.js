@@ -173,9 +173,35 @@ async function saveToGithub() {
   const putRes = await fetch('/.netlify/functions/save-data', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content: content, sha: fileInfo.sha })
+    body: JSON.stringify({ type: 'data', content: content, sha: fileInfo.sha })
   });
   return putRes.ok;
+}
+
+async function uploadImage(input, pi) {
+  const file = input.files[0];
+  if (!file) return;
+  const filename = file.name.replace(/[^a-zA-Z0-9.-]/g, '-').toLowerCase();
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    const base64 = e.target.result.split(',')[1];
+    const imgField = document.getElementById(`p-img-${pi}`);
+    imgField.value = '⏳ Upload en cours...';
+    const res = await fetch('/.netlify/functions/save-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'image', filename: filename, content: base64 })
+    });
+    if (res.ok) {
+      const result = await res.json();
+      imgField.value = result.path;
+      alert('✅ Image uploadée ! N\'oublie pas de sauvegarder les procédures.');
+    } else {
+      imgField.value = '';
+      alert('❌ Erreur lors de l\'upload de l\'image.');
+    }
+  };
+  reader.readAsDataURL(file);
 }
 
 function showAdmin() {
@@ -230,7 +256,13 @@ function showAdmin() {
                     <input value="${proc.titre}" style="flex:1;padding:8px;border:1px solid #eee;border-radius:8px;font-size:13px;" id="p-titre-${pi}">
                   </div>
                   <input value="${proc.categorie}" placeholder="Catégorie" style="padding:8px;border:1px solid #eee;border-radius:8px;font-size:13px;" id="p-cat-${pi}">
-                  <input value="${proc.image || ''}" placeholder="URL de l'image (ex: images/evacuation.jpg)" style="padding:8px;border:1px solid #eee;border-radius:8px;font-size:13px;" id="p-img-${pi}">
+                  <div style="display:flex;gap:8px;align-items:center;">
+                    <input value="${proc.image || ''}" placeholder="Aucune image" style="flex:1;padding:8px;border:1px solid #eee;border-radius:8px;font-size:13px;" id="p-img-${pi}" readonly>
+                    <label style="padding:8px 12px;background:#f0f0f0;border:1px solid #ddd;border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap;">
+                      📷 Choisir
+                      <input type="file" accept="image/*" style="display:none;" onchange="uploadImage(this, ${pi})">
+                    </label>
+                  </div>
                   <button onclick="deleteProc(${pi})" style="padding:8px;background:#fff;border:1px solid #ffcdd2;border-radius:8px;color:#D32F2F;font-size:13px;cursor:pointer;">🗑️ Supprimer cette procédure</button>
                 </div>
               `).join('')}
@@ -266,7 +298,7 @@ async function saveContacts() {
     });
   });
   const ok = await saveToGithub();
-  alert(ok ? '✅ Contacts sauvegardés !' : '❌ Erreur de sauvegarde. Vérifiez le token GitHub.');
+  alert(ok ? '✅ Contacts sauvegardés !' : '❌ Erreur de sauvegarde.');
 }
 
 function addProc() {
@@ -296,7 +328,7 @@ async function saveProcs() {
     proc.image = document.getElementById(`p-img-${pi}`).value;
   });
   const ok = await saveToGithub();
-  alert(ok ? '✅ Procédures sauvegardées !' : '❌ Erreur de sauvegarde. Vérifiez le token GitHub.');
+  alert(ok ? '✅ Procédures sauvegardées !' : '❌ Erreur de sauvegarde.');
 }
 
 function logout() {
