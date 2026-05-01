@@ -78,10 +78,10 @@
   "procedures": [
     {
       "id": "evacuation",
-      "titre": "Évacuation du bâtiment",
+      "titre": "Introduction PDSL",
       "icone": "🚪",
-      "categorie": "Urgence",
-      "image": "images/evacuation.jpg",
+      "categorie": "",
+      "image": "images/1.jpg",
       "contacts_lies": [
         "incendie"
       ]
